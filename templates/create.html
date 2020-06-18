@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block title %}Restaurant{% endblock %}
+{% block content %}
+
+    <div style="text-align: center;">
+        <h2><b>{{ session['ownername'] }}</b>'s Restaurant</h2>
+        <br><br>
+        <form action="/create" method="POST" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Restaurant ID" name="rest_id">
+            </div>
+            <div class="form-group">
+              <input type="file" name="file">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Restaurant Name" name="rest_name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Locality" name="rest_locality">
+            </div>
+            <div class="form-check" style="text-align: left;">
+                <input class="form-check-input" type="radio" name="rest_veg" id="rest_veg" value="Veg">
+                <label class="form-check-label" for="rest_veg" style="margin-right: 5%;">
+                  Vegetarian
+                </label>
+                <input class="form-check-input" type="radio" name="rest_veg" id="rest_veg2" value="Non-veg">
+                <label class="form-check-label" for="rest_veg2" style="margin-right: 5%;">
+                  Non-vegetarian
+                </label>
+                <input class="form-check-input" type="radio" name="rest_veg" id="rest_veg3" value="Vegan">
+                <label class="form-check-label" for="rest_veg3">
+                  Vegan
+                </label>
+            </div><br>
+            <div class="form-group">
+                <input type="number" class="form-control" placeholder="Average Cost for two(approx.)" name="rest_cost">
+            </div>
+            <div class="form-check" style="text-align: left;">
+                <label for="rest_drinks" style="margin-right: 5%;">Are drinks served?</label>
+                <input class="form-check-input" type="radio" name="rest_drinks" id="rest_drinks" value="Yes">
+                <label class="form-check-label" for="rest_drinks" style="margin-right: 5%;">
+                  Yes
+                </label>
+                <input class="form-check-input" type="radio" name="rest_drinks" id="rest_drinks2" value="No">
+                <label class="form-check-label" for="rest_drinks2" style="margin-right: 5%;">
+                  No
+                </label>
+            </div><br>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="3 Words to describe your restaurant" name="rest_desc">
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="rest_days">
+                  <option value="everyday">When is this restaurant open?</option>
+                  <option value="weekends">Only Weekends</option>
+                  <option value="weekdays">Only Weekdays</option>
+                  <option value="everyday">Everyday</option>
+                  <option value="sunclosed">Sunday Closed</option>
+                  <option value="thursclosed">Thursday Closed</option>
+                  <option value="monclosed">Monday Closed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="What is this restaurant best known for?" name="rest_best">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

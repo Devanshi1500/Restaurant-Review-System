@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="jumbotron" style="padding: 4% 25%;">
+<h2>{{ owner['ownername'] }}'s Profile</h2><br>
+{% with messages = get_flashed_messages() %}  
+    {% if messages %}  
+        {% for message in messages %}  
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}  
+    {% endif %}  
+{% endwith %}
+<div>
+    <table class="table">
+        <tr>
+            <td> <i class="fa fa-user"></i> &nbsp;&nbsp;&nbsp; Name<span style="float: right;">:</span></td>
+            <td><b>{{ owner['ownername'] }}</b></td>
+        </tr>
+        <tr>
+            <td> <i class="fa fa-envelope"></i> &nbsp;&nbsp;&nbsp; Email<span style="float: right;">:</span></td>
+            <td><b>{{ owner['owneremail'] }}</b></td>
+        </tr>
+        <tr>
+            <td> <i class="fa fa-phone"></i> &nbsp;&nbsp;&nbsp; Phone<span style="float: right;">:</span></td>
+            <td><b>{{ owner['phone'] }}</b></td>
+        </tr>
+        <tr>
+            <td> <i class="fa fa-utensils"></i> &nbsp;&nbsp;&nbsp; Restaurant ID<span style="float: right;">:</span></td>
+            <td><b>{{ owner['rest_id'] }}</b></td>
+        </tr>
+        <tr>
+            <td> <i class="fa fa-lock"></i> &nbsp;&nbsp;&nbsp; Password <span style="float: right;">:</span></td>
+            <td><b><span id="pass">{{ s }}<a type="button" style="float: right;" onclick="pass()"><i class="fa fa-eye"></i></a></span>
+                <span id="pass2" style="display: none;">{{ owner['passcode'] }}<a type="button" style="float: right;" onclick="pass()"><i class="fa fa-eye-slash"></i></a></span>
+            </b></td>
+        </tr>
+    </table>
+    <a href="{{ url_for('editownerprofile') }}" type="button" class="btn btn-primary">Edit Profile</a>
+</div>
+</div>
+<script>
+    function pass(){
+        x = document.getElementById('pass')
+        y = document.getElementById('pass2')
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+
+        if (y.style.display === "none") {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
+    }
+</script>
+
+{% endblock %}

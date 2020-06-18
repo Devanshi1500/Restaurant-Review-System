@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% block title %}My Restaurant{% endblock %}
+{% block content %}
+<div class="jumbotron">
+
+    
+    {% with messages = get_flashed_messages() %}  
+    {% if messages %}  
+        {% for message in messages %}  
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}  
+    {% endif %}  
+    {% endwith %}
+    <style>
+        .text-muted{
+            font-size: 0.85rem;
+        }
+    </style>
+
+    {% if restaurant %}
+    <div class="row">
+        <div class="col-md-2">
+            {% if restaurant['pic'] %}
+                <img src="..\static\{{restaurant['pic']}}" alt="Helloji" width="150px" height="150px" style="border-radius: 8px;">
+            {% endif %}
+        </div>
+    <div class="col-md-7">
+        <h1 style="color: rgb(0, 41, 95);"><i class="fas fa-utensils"></i>&nbsp;&nbsp;{{restaurant['rest_name']}}</h1>
+        <small class="text-muted">{{restaurant['rest_desc']}}</small><br>
+        <b>{{restaurant['rest_locality']}}</b>
+        {% if restaurant['rest_veg'] == 'Non-veg' %}
+            <li style="color: rgb(209, 0, 0);">Non Vegetarian</li>
+        {% elif restaurant['rest_veg'] == 'veg' %}
+            <li style="color: green;">Vegetarian</li>
+        {% else%}
+            <li style="color: green;">Vegan</li>
+        {% endif %}
+    </div>
+    </div><br>
+        <table>
+            <tr>
+                <td class="text-muted">BEST KNOWN FOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>{{restaurant['rest_best']}}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">DRINKS OFFERED?</td>
+                <td>{{restaurant['rest_drinks']}}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">COST FOR TWO:</td>
+                <td>Rs. {{restaurant['rest_cost']}}</td>
+            </tr>
+            <tr>
+                <td class="text-muted">OPEN ON:</td>
+                <td>{{restaurant['rest_days']}}</td>
+            </tr>
+        </table>
+    {% endif %}
+
+
+</div>
+{% endblock %}

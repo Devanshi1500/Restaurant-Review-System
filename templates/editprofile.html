@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            {% if session['loggedin'] %}
+            {% with messages = get_flashed_messages() %}  
+                    {% if messages %}  
+                        {% for message in messages %}  
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}  
+                {% endwith %}
+
+                <form action="{{ url_for('editprofile') }}" method="POST">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                    </label>
+                    <!-- <input type="hidden" name="id" value="{{session['id']}}"> -->
+                    <input type="text" name="username" placeholder="Username" id="username" value="{{session['username']}}" required>
+                    <br>
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                    </label>
+                    <input type="password" name="password" placeholder="Password" id="password" value="{{session['password']}}" required>
+                    <br>
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                    </label>
+                    <input type="email" name="email" placeholder="Email" id="email" value="{{session['email']}}" required>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            
+            {% else %}
+            <h1>You are Logged Out!</h1>
+            <a href="{{ url_for('login') }}" type="button" class="btn btn-primary">Login</a>
+                
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script>
+    // $(".alert").alert('close')
+</script>
+</html>

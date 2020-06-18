@@ -1,0 +1,58 @@
+{% extends 'user_layout.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="jumbotron" style="padding: 4% 25%;">
+
+    <h2>Profile Page</h2><hr>
+    {% with messages = get_flashed_messages() %}  
+        {% if messages %}  
+            {% for message in messages %}  
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}  
+        {% endif %}  
+    {% endwith %}
+    <div>
+        <p>Your account details are below:</p>
+        <table class="table">
+            <tr>
+                <td> <i class="fa fa-user"></i> &nbsp;&nbsp;&nbsp; Username <span style="float: right;">:</span></td>
+                <td><b>{{ account['username'] }}</b></td>
+            </tr>
+            <tr>
+                <td> <i class="fa fa-lock"></i> &nbsp;&nbsp;&nbsp; Password <span style="float: right;">:</span></td>
+                <td><span id="pass"><b>{{ s }}</b><a type="button" style="float: right;" onclick="pass()"><i class="fa fa-eye"></i></a></span>
+                    <span id="pass2" style="display: none;"><b>{{ account['password'] }}</b><a type="button" style="float: right;" onclick="pass()"><i class="fa fa-eye-slash"></i></a></span>
+                </td>
+                
+            </tr>
+            <tr>
+                <td> <i class="fa fa-envelope"></i> &nbsp;&nbsp;&nbsp; Email <span style="float: right;">:</span></td>
+                <td><b>{{ account['email'] }}</b></td>
+            </tr>
+        </table>
+        <a href="{{ url_for('editprofile') }}" type="button" class="btn btn-primary">Edit Profile</a>
+    </div>
+</div>
+<script>
+    function pass(){
+        x = document.getElementById('pass')
+        y = document.getElementById('pass2')
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+
+        if (y.style.display === "none") {
+            y.style.display = "block";
+        } else {
+            y.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

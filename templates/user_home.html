@@ -1,0 +1,85 @@
+{% extends 'user_layout.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="jumbotron">
+    <div style="text-align: center;">
+        <h2>Welcome, <b>{{ username }}!</h2>
+            <br><br>
+        <h4>Quote of the Day</h4>
+        <p>{{quote}}</p>
+    </div>
+</div>
+<form action="/user_home" method="POST">
+    <div class="row">
+        <div class="col-md-10">
+        <select class="form-control" name="sort_by">
+          <option value="desc">Sort By</option>
+          <option value="costlh">Cost Low to High</option>
+          <option value="costhl">Cost High to Low</option>
+          <option value="veg">Vegetarian</option>
+          <option value="non-veg">Non-vegetarian</option>
+          <option value="vegan">Vegan</option>
+          <option value="drinks">Drinks Served</option>
+          <option value="no-drinks">Drinks Not Served</option>
+          <option value="weekends">Open on Weekends</option>
+          <option value="weekdays">Open on Weekdays</option>
+        </select>
+        </div>
+        <div class="col-md-2" style="width: 100%;">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>      
+</form><br>
+<div class="row">
+    {% if restaurants %}
+        {% for restaurant in restaurants %}            
+            <div class="col-md-6">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if restaurant['pic'] %}
+                                <img src="..\static\{{restaurant['pic']}}" alt="Helloji" width="150px" height="150px" style="border-radius: 8px;">
+                            {% endif %}
+                        </div>
+                    <div class="col-md-8">
+                        <h1 style="color: rgb(0, 41, 95); font-size: 2rem;"><i class="fas fa-utensils"></i>&nbsp;&nbsp;{{restaurant['rest_name']}}</h1>
+                        <small class="text-muted">{{restaurant['rest_desc']}}</small><br>
+                        <b>{{restaurant['rest_locality']}}</b>
+                        {% if restaurant['rest_veg'] == 'Non-veg' %}
+                        <li style="color: rgb(209, 0, 0);">Non Vegetarian</li>
+                        {% elif restaurant['rest_veg'] == 'Veg' %}
+                        <li style="color: green;">Vegetarian</li>
+                        {% else%}
+                        <li style="color: green;">Vegan</li>
+                        {% endif %}
+                    </div>
+                    </div>
+                    <br>
+                    <table>
+                        <tr>
+                            <td class="text-muted">BEST KNOWN FOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{restaurant['rest_best']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">DRINKS OFFERED?</td>
+                            <td>{{restaurant['rest_drinks']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">COST FOR TWO:</td>
+                            <td>Rs. {{restaurant['rest_cost']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">OPEN ON:</td>
+                            <td>{{restaurant['rest_days']}}</td>
+                        </tr>
+                    </table><br>
+                    <form action="{{url_for('wishlist')}}" method="POST" style="text-align: right;">
+                        <input type="hidden" name="rest_id" value="{{restaurant['rest_id']}}">
+                        <button class="btn btn-primary" type="submit">Give a Review</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

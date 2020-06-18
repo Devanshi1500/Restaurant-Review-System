@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <style>
+        .card{
+            text-align: center;
+            margin: 10% 30%;
+            padding: 2%;
+        }
+        .btn{
+            font-size: large;
+            padding: 1%;
+            width: 100%;
+            margin: 0;
+        }
+        .links .col{
+            padding: 0%;
+            border: 1px solid snow;
+        }
+        .links .active{
+            border-bottom: 2px solid rgb(0, 74, 143);
+        }
+        .form{
+            padding: 3%;
+            margin: 0;
+            padding-bottom: 0;
+        }
+        body{
+            background-color: rgb(0, 74, 143);
+        }
+        h3{
+            color: rgb(0, 74, 143);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            {% if session['loggedin'] %}
+            {% with messages = get_flashed_messages() %}  
+                    {% if messages %}  
+                        {% for message in messages %}  
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}  
+                {% endwith %}
+
+                
+                <form action="{{ url_for('editownerprofile') }}" method="POST" class="form">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label for="ownername" class="input-group-text"><i class="fas fa-user"></i></label>
+                        </div>
+                        <input class="form-control" value="{{session['ownername']}}" type="text" name="ownername" placeholder="Owner" id="ownername" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label for="email" class="input-group-text"><i class="fas fa-envelope"></i></label>
+                        </div>
+                        <input class="form-control" value="{{session['owneremail']}}" type="email" name="owneremail" placeholder="Email" id="email" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label for="phone" class="input-group-text"><i class="fas fa-phone"></i></label>
+                        </div>
+                        <input class="form-control" value="{{session['phone']}}" type="text" name="phone" placeholder="Phone" id="phone" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label for="rest_id" class="input-group-text"><i class="fas fa-id-badge"></i></label>
+                        </div>
+                        <input class="form-control" value="{{session['rest_id']}}" type="text" name="rest_id" placeholder="Restaurant ID" id="rest_id" required disabled>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend form-group">
+                            <label for="password" class="input-group-text"><i class="fas fa-lock"></i></label>
+                        </div>
+                        <input class="form-control" type="password" value="{{session['passcode']}}" name="passcode" placeholder="Password" id="password" required>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            
+            {% else %}
+            <h1>You are Logged Out!</h1>
+            <a href="{{ url_for('owner_login') }}" type="button" class="btn btn-primary">Login</a>
+                
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script>
+    // $(".alert").alert('close')
+</script>
+</html>

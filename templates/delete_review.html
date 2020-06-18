@@ -1,0 +1,114 @@
+{% extends 'user_layout.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<style>
+    .tri-right.border.left-top:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -40px;
+    right: auto;
+    top: -8px;
+    bottom: auto;
+    border: 32px solid;
+    border-color: #666 transparent transparent transparent;
+    }
+    .tri-right.left-top:after{
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -20px;
+    right: auto;
+    top: 0px;
+    bottom: auto;
+    border: 22px solid;
+    border-color: rgb(199, 198, 198) transparent transparent transparent;
+    }
+    .talk-bubble {
+    margin: 20px;
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: auto;
+    background-color: rgb(199, 198, 198);
+    border-radius: 5px;
+    }
+</style>
+
+
+{% if restaurant %}
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-4">
+                    {% if restaurant['pic'] %}
+                        <img src="..\static\{{restaurant['pic']}}" alt="Helloji" width="150px" height="150px" style="border-radius: 8px;">
+                    {% endif %}
+                </div>
+            <div class="col-md-8">
+                <h1 style="color: rgb(0, 41, 95); font-size: 2rem;"><i class="fas fa-utensils"></i>&nbsp;&nbsp;{{restaurant['rest_name']}}</h1>
+                <small class="text-muted">{{restaurant['rest_desc']}}</small><br>
+                <b>{{restaurant['rest_locality']}}</b>
+                {% if restaurant['rest_veg'] == 'Non-veg' %}
+                <li style="color: rgb(209, 0, 0);">Non Vegetarian</li>
+                {% elif restaurant['rest_veg'] == 'Veg' %}
+                <li style="color: green;">Vegetarian</li>
+                {% else%}
+                <li style="color: green;">Vegan</li>
+                {% endif %}
+            </div>
+            </div>
+            <br>
+            <table>
+                <tr>
+                    <td class="text-muted">BEST KNOWN FOR:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>{{restaurant['rest_best']}}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">DRINKS OFFERED?</td>
+                    <td>{{restaurant['rest_drinks']}}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">COST FOR TWO:</td>
+                    <td>Rs. {{restaurant['rest_cost']}}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">OPEN ON:</td>
+                    <td>{{restaurant['rest_days']}}</td>
+                </tr>
+            </table><br>
+            <form action="{{url_for('wishlist')}}" method="POST">
+                <input type="hidden" name="rest_id" value="{{restaurant['rest_id']}}">
+                <textarea name="review" placeholder="Add your Reviews" cols="140" rows="5" style="border-radius: 5px;"></textarea>
+                <br><br>
+                <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+            </form><br><br>
+
+            {% if rev %}
+            <h3>Reviews</h3>
+            {% for op in rev %}
+                <div class="talk-bubble tri-right left-top" style="padding: 1%; width: 60%; margin-left: 2%;">
+                    <h5>{{op['user']}}</h5>
+                    <div style="margin-left: 2%;">{{op['review']}}</div><br>
+                    <small class="text-muted">{{op['time']}}</small>
+                    <div>
+                        {% if op['user'] == session['username'] %}
+                        <form action="{{url_for('update_review')}}" method="POST">
+                            <input type="hidden" name="rev_id" value="{{op['id']}}">
+                            <button  style="padding: 2px 13px" type="submit" class="btn btn-sm btn-secondary">Edit</button>
+                        </form>
+                        <form action="{{url_for('delete_review')}}" method="POST">
+                            <input type="hidden" name="rev_id" value="{{op['id']}}">
+                            <button  style="padding: 2px 5px" type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div><br>
+            {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}
